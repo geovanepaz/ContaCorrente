@@ -1,0 +1,47 @@
+CREATE TABLE extrato (
+    	id INT IDENTITY(1 , 1) PRIMARY KEY NOT NULL, 
+	id_conta INT NOT NULL,
+	data_referencia datetime2 NOT NULL,
+	tipo_operacao VARCHAR(20) NOT NULL,
+	saldo_atual DECIMAL NOT NULL, 
+	valor DECIMAL NOT NULL, 
+);
+
+CREATE TABLE comprovante_pagamento(
+	id INT IDENTITY(1 , 1) PRIMARY KEY, 
+	codigo_barras VARCHAR(9) not null,
+	destinatario  VARCHAR(20) not null,
+	valor DECIMAL not null, 
+	id_extrato INT NOT NULL
+)
+
+CREATE TABLE conta (
+	id INT IDENTITY(1 , 1) PRIMARY KEY,
+	numero_conta VARCHAR(20) UNIQUE NOT NULL,
+	numero_agencia VARCHAR(20) NOT NULL,
+	tipo_conta CHAR(1) NOT NULL,
+);
+
+CREATE TABLE log_sistema (
+    id int IDENTITY(1 , 1) PRIMARY KEY,
+    application varchar(255),
+    tracetime datetime,
+    loglevel varchar(50),
+    message varchar(4000),
+    machinename varchar(20), 
+    username varchar(30), 
+    exceptionmessage varchar(4000)
+);
+
+
+ALTER TABLE comprovante_pagamento
+ADD FOREIGN KEY (id_extrato) REFERENCES extrato(id);
+
+ALTER TABLE extrato
+ADD FOREIGN KEY (id_conta) REFERENCES conta(id);
+
+
+
+
+
+
